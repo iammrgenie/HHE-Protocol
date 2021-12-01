@@ -53,9 +53,6 @@ int main(){
                                     0x0d106, 0x0e7fd, 0x04ddf, 0x08bb8, 0x0a3a4, 0x03bcd, 0x036d9, 0x05acf
                                 };
 
-  	vector<uint64_t> plaintext;
-  	vector<uint64_t> ciphertext;
-
     //Set the Homorphic Parameters
   	uint64_t plain_mod = 65537;
   	uint64_t mod_degree = 16384;
@@ -87,37 +84,71 @@ int main(){
     auto context = make_shared<seal::SEALContext>(parms, true, sec);
 
     //Initiate the Class for HHE using PASTA_SEAL
-    PASTA_3::PASTA_SEAL US_1(in_key, context);
+    PASTA_3::PASTA_SEAL M1(in_key, context);
 
     //Initiate the Class for Encryption and Decryption using PASTA Symmetric Key for Encryption and Decryption
     PASTA_3::PASTA EN(in_key, plain_mod);
 
     //Print the necessary parameters to screen
-    US_1.print_parameters();
+    M1.print_parameters();
 
     //compute the HE encryption of the secret key and measure performance
-    US_1.activate_bsgs(false);
-    US_1.add_gk_indices();
-    US_1.create_gk();
+    M1.activate_bsgs(false);
+    M1.add_gk_indices();
+    M1.create_gk();
     //Encrypt the secret key with HE
-    cout << "Using HE to encrypt the generated key\n" << flush;
+    cout << "\nUsing HE to encrypt the generated key ...\n" << flush;
     time_start = chrono::high_resolution_clock::now();
-    US_1.encrypt_key(USE_BATCH);
+    M1.encrypt_key(USE_BATCH);
     time_end = chrono::high_resolution_clock::now();
     time_diff = chrono::duration_cast<chrono::milliseconds>(time_end - time_start);
-    cout << "Time taken to encrypt the Symmetric Key: " << time_diff.count() << " milliseconds" << endl;
+    cout << "Time taken to encrypt the Symmetric Key = " << time_diff.count() << " milliseconds" << endl;
 
     //Set dummy plaintext and test encryption and decryption
-    vector<uint64_t> x = {0x66};
+    vector<uint64_t> x = {0x01c4f, 0x0e3e4, 0x08fe2, 0x0d7db, 0x05594, 0x05c72, 0x0962a, 0x02c3c,
+      0x0b3dd, 0x07975, 0x0928b, 0x01024, 0x0632e, 0x07702, 0x05ca1, 0x08e2d,
+      0x09b4c, 0x00747, 0x0d484, 0x005ad, 0x0674c, 0x07fd1, 0x00a34, 0x036c7,
+      0x014dc, 0x08b83, 0x000e7, 0x00097, 0x03f69, 0x03e8b, 0x07d3b, 0x0de0a,
+      0x0bfa6, 0x0ac00, 0x0caea, 0x08cb9, 0x0f1c5, 0x0812a, 0x04071, 0x0a573,
+      0x0ed1b, 0x0fe51, 0x08be8, 0x030b3, 0x05493, 0x01d44, 0x0869c, 0x09376,
+      0x032bb, 0x0ee24, 0x01b04, 0x01631, 0x0b71a, 0x0590c, 0x06418, 0x0fe7f,
+      0x07678, 0x003b4, 0x0f9cb, 0x0ae4c, 0x04b63, 0x0dcd2, 0x04224, 0x07849,
+      0x0cdf6, 0x0d4ee, 0x0a804, 0x0daf9, 0x09ef8, 0x004d7, 0x0701a, 0x02467,
+      0x09a43, 0x00141, 0x0bb40, 0x0734d, 0x00932, 0x00cd4, 0x09052, 0x0d760,
+      0x093bf, 0x0ee3f, 0x0d6bb, 0x09261, 0x0b23d, 0x0c35d, 0x0131a, 0x0a773,
+      0x08098, 0x041fe, 0x04acb, 0x061b2, 0x034e4, 0x0f36c, 0x0aa38, 0x09144,
+      0x00b40, 0x06f83, 0x001c2, 0x095c0, 0x075e4, 0x0ddcd, 0x06d0d, 0x0e9fa,
+      0x0aeb9, 0x0d277, 0x02c4b, 0x09d81, 0x0e805, 0x03830, 0x0f452, 0x0266a,
+      0x04fc0, 0x0f505, 0x01f14, 0x09eea, 0x081d0, 0x0ca4f, 0x016d5, 0x0f2fb,
+      0x0a3ed, 0x03868, 0x09ea1, 0x0c657, 0x0b8e3, 0x05663, 0x07a04, 0x02e7b};
 
     //Encrypt plaintext with the set key
+    time_start = chrono::high_resolution_clock::now();
     vector<uint64_t> x_encrypted = EN.encrypt(x);
     utils::print_vector("plaintext: ", x, cerr);
+    cout<<"\n";
     utils::print_vector("ciphertext: ", x_encrypted, cerr);
-    
-    //Decrypt the generated ciphertext with the same key
-    vector<uint64_t> x_decrypted = EN.decrypt(x_encrypted);
-    utils::print_vector("decrypted message: ", x_decrypted, cerr);
+    cout<<"\n";
+    time_end = chrono::high_resolution_clock::now();
+    time_diff = chrono::duration_cast<chrono::milliseconds>(time_end - time_start);
+    cout << "Time taken for PASTA encryption = " << time_diff.count() << " milliseconds" << endl;
+
+    //HHE Decomposition using the Symmetric Ciphertext and the HE encrypted key
+    cout << "\nDecomposing C' and C ...\n" << flush;
+    time_start = chrono::high_resolution_clock::now();
+    vector<seal::Ciphertext> c_decomp = M1.HE_decrypt(x_encrypted, USE_BATCH);
+    time_end = chrono::high_resolution_clock::now();
+    time_diff = chrono::duration_cast<chrono::milliseconds>(time_end - time_start);
+    cout << "Time taken to Decompose C' and C = " << time_diff.count() << " milliseconds" << endl;
+
+    //Decrypt the Decomposed Ciphertext by the Analyst
+    cout << "\nDecryption of Final Message using SK ...\n" << flush;
+    time_start = std::chrono::high_resolution_clock::now();
+    vector<uint64_t> x_plain = M1.decrypt_result(c_decomp, USE_BATCH);
+    time_end = chrono::high_resolution_clock::now();
+    time_diff = chrono::duration_cast<chrono::milliseconds>(time_end - time_start);
+    cout << "Decryption Time: " << time_diff.count() << " milliseconds" << endl;
+    utils::print_vector("Decrypted Decomposed Message: ", x_plain, cerr);
 
 
     return 0;
