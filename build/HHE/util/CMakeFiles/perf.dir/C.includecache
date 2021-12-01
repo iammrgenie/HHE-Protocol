@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/mrgenie/HHE_nisec/HHE/util/perf.c
+perf.h
+/home/mrgenie/HHE_nisec/HHE/util/perf.h
+limits.h
+-
+string.h
+-
+time.h
+-
+linux/perf_event.h
+-
+linux/version.h
+-
+sys/syscall.h
+-
+sys/types.h
+-
+unistd.h
+-
+
+/home/mrgenie/HHE_nisec/HHE/util/perf.h
+stdbool.h
+-
+stdint.h
+-
+

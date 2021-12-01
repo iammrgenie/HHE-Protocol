@@ -1,0 +1,57 @@
+[
+{
+  "directory": "/home/mrgenie/HHE_nisec/build",
+  "command": "/usr/bin/c++  -DOC_ENABLE_AESNI -DOC_ENABLE_SSE2 -I/home/mrgenie/HHE_nisec/HHE/thirdparty/m4ri/installed/include -I/home/mrgenie/HHE_nisec/HHE/util/keccak -I/home/mrgenie/HHE_nisec/HHE/util/keccak/avx2 -I/home/mrgenie/HHE_nisec/HHE/util/aes -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/native/src -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/build/native/src -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/thirdparty/msgsl-src/include  -O2 -g -DNDEBUG   -pthread -std=gnu++17 -o CMakeFiles/hheseal.dir/HHE_NISEC_seal.cpp.o -c /home/mrgenie/HHE_nisec/HHE_NISEC_seal.cpp",
+  "file": "/home/mrgenie/HHE_nisec/HHE_NISEC_seal.cpp"
+},
+{
+  "directory": "/home/mrgenie/HHE_nisec/build",
+  "command": "/usr/bin/c++  -DOC_ENABLE_AESNI -DOC_ENABLE_SSE2 -I/home/mrgenie/HHE_nisec/HHE/thirdparty/m4ri/installed/include -I/home/mrgenie/HHE_nisec/HHE/util/keccak -I/home/mrgenie/HHE_nisec/HHE/util/keccak/avx2 -I/home/mrgenie/HHE_nisec/HHE/util/aes -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/native/src -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/build/native/src -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/thirdparty/msgsl-src/include  -O2 -g -DNDEBUG   -pthread -std=gnu++17 -o CMakeFiles/hheseal.dir/HHE/ciphers/common/SEAL_Cipher.cpp.o -c /home/mrgenie/HHE_nisec/HHE/ciphers/common/SEAL_Cipher.cpp",
+  "file": "/home/mrgenie/HHE_nisec/HHE/ciphers/common/SEAL_Cipher.cpp"
+},
+{
+  "directory": "/home/mrgenie/HHE_nisec/build",
+  "command": "/usr/bin/c++  -DOC_ENABLE_AESNI -DOC_ENABLE_SSE2 -I/home/mrgenie/HHE_nisec/HHE/thirdparty/m4ri/installed/include -I/home/mrgenie/HHE_nisec/HHE/util/keccak -I/home/mrgenie/HHE_nisec/HHE/util/keccak/avx2 -I/home/mrgenie/HHE_nisec/HHE/util/aes -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/native/src -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/build/native/src -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/thirdparty/msgsl-src/include  -O2 -g -DNDEBUG   -pthread -std=gnu++17 -o CMakeFiles/hheseal.dir/HHE/ciphers/common_Zp/SEAL_Cipher.cpp.o -c /home/mrgenie/HHE_nisec/HHE/ciphers/common_Zp/SEAL_Cipher.cpp",
+  "file": "/home/mrgenie/HHE_nisec/HHE/ciphers/common_Zp/SEAL_Cipher.cpp"
+},
+{
+  "directory": "/home/mrgenie/HHE_nisec/build",
+  "command": "/usr/bin/c++  -DOC_ENABLE_AESNI -DOC_ENABLE_SSE2 -I/home/mrgenie/HHE_nisec/HHE/thirdparty/m4ri/installed/include -I/home/mrgenie/HHE_nisec/HHE/util/keccak -I/home/mrgenie/HHE_nisec/HHE/util/keccak/avx2 -I/home/mrgenie/HHE_nisec/HHE/util/aes -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/native/src -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/build/native/src -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/thirdparty/msgsl-src/include  -O2 -g -DNDEBUG   -pthread -std=gnu++17 -o CMakeFiles/hheseal.dir/HHE/ciphers/pasta_3/seal/pasta_3_seal.cpp.o -c /home/mrgenie/HHE_nisec/HHE/ciphers/pasta_3/seal/pasta_3_seal.cpp",
+  "file": "/home/mrgenie/HHE_nisec/HHE/ciphers/pasta_3/seal/pasta_3_seal.cpp"
+},
+{
+  "directory": "/home/mrgenie/HHE_nisec/build",
+  "command": "/usr/bin/c++  -DOC_ENABLE_AESNI -DOC_ENABLE_SSE2 -I/home/mrgenie/HHE_nisec/HHE/thirdparty/m4ri/installed/include -I/home/mrgenie/HHE_nisec/HHE/util/keccak -I/home/mrgenie/HHE_nisec/HHE/util/keccak/avx2 -I/home/mrgenie/HHE_nisec/HHE/util/aes -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/native/src -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/build/native/src -isystem /home/mrgenie/HHE_nisec/HHE/thirdparty/SEAL/thirdparty/msgsl-src/include  -O2 -g -DNDEBUG   -pthread -std=gnu++17 -o CMakeFiles/hheseal.dir/HHE/ciphers/pasta_3/plain/pasta_3_plain.cpp.o -c /home/mrgenie/HHE_nisec/HHE/ciphers/pasta_3/plain/pasta_3_plain.cpp",
+  "file": "/home/mrgenie/HHE_nisec/HHE/ciphers/pasta_3/plain/pasta_3_plain.cpp"
+},
+{
+  "directory": "/home/mrgenie/HHE_nisec/build/HHE/util",
+  "command": "/usr/bin/cc -DOC_ENABLE_AESNI -DOC_ENABLE_SSE2 -I/home/mrgenie/HHE_nisec/HHE/util  -O2 -g -DNDEBUG   -msse2 -maes -o CMakeFiles/perf.dir/perf.c.o   -c /home/mrgenie/HHE_nisec/HHE/util/perf.c",
+  "file": "/home/mrgenie/HHE_nisec/HHE/util/perf.c"
+},
+{
+  "directory": "/home/mrgenie/HHE_nisec/build/HHE/util/keccak",
+  "command": "/usr/bin/cc -DOC_ENABLE_AESNI -DOC_ENABLE_SSE2 -I/home/mrgenie/HHE_nisec/HHE/util/keccak -I/home/mrgenie/HHE_nisec/HHE/util/keccak/avx2  -O2 -g -DNDEBUG   -msse2 -maes -o CMakeFiles/keccak.dir/KeccakSpongeWidth1600.c.o   -c /home/mrgenie/HHE_nisec/HHE/util/keccak/KeccakSpongeWidth1600.c",
+  "file": "/home/mrgenie/HHE_nisec/HHE/util/keccak/KeccakSpongeWidth1600.c"
+},
+{
+  "directory": "/home/mrgenie/HHE_nisec/build/HHE/util/keccak",
+  "command": "/usr/bin/cc -DOC_ENABLE_AESNI -DOC_ENABLE_SSE2 -I/home/mrgenie/HHE_nisec/HHE/util/keccak -I/home/mrgenie/HHE_nisec/HHE/util/keccak/avx2  -O2 -g -DNDEBUG   -msse2 -maes -o CMakeFiles/keccak.dir/KeccakHash.c.o   -c /home/mrgenie/HHE_nisec/HHE/util/keccak/KeccakHash.c",
+  "file": "/home/mrgenie/HHE_nisec/HHE/util/keccak/KeccakHash.c"
+},
+{
+  "directory": "/home/mrgenie/HHE_nisec/build/HHE/util/keccak",
+  "command": "/usr/bin/cc -DOC_ENABLE_AESNI -DOC_ENABLE_SSE2 -I/home/mrgenie/HHE_nisec/HHE/util/keccak -I/home/mrgenie/HHE_nisec/HHE/util/keccak/avx2  -O2 -g -DNDEBUG   -msse2 -maes -o CMakeFiles/keccak.dir/avx2/KeccakP-1600-AVX2.s.o   -c /home/mrgenie/HHE_nisec/HHE/util/keccak/avx2/KeccakP-1600-AVX2.s",
+  "file": "/home/mrgenie/HHE_nisec/HHE/util/keccak/avx2/KeccakP-1600-AVX2.s"
+},
+{
+  "directory": "/home/mrgenie/HHE_nisec/build/HHE/util/aes",
+  "command": "/usr/bin/c++  -DOC_ENABLE_AESNI -DOC_ENABLE_SSE2 -I/home/mrgenie/HHE_nisec/HHE/util/aes  -O2 -g -DNDEBUG   -msse2 -maes -std=gnu++17 -o CMakeFiles/aes.dir/aes.cpp.o -c /home/mrgenie/HHE_nisec/HHE/util/aes/aes.cpp",
+  "file": "/home/mrgenie/HHE_nisec/HHE/util/aes/aes.cpp"
+},
+{
+  "directory": "/home/mrgenie/HHE_nisec/build/HHE/util/aes",
+  "command": "/usr/bin/c++  -DOC_ENABLE_AESNI -DOC_ENABLE_SSE2 -I/home/mrgenie/HHE_nisec/HHE/util/aes  -O2 -g -DNDEBUG   -msse2 -maes -std=gnu++17 -o CMakeFiles/aes.dir/block.cpp.o -c /home/mrgenie/HHE_nisec/HHE/util/aes/block.cpp",
+  "file": "/home/mrgenie/HHE_nisec/HHE/util/aes/block.cpp"
+}
+]
