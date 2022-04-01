@@ -1,0 +1,176 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "HHE/util",
+					"childIndexes" : 
+					[
+						2,
+						3
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "HHE/util",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "HHE/util/keccak",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4.1"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "HHE/util/keccak",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "HHE/util/aes",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4.1"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 3,
+					"source" : "HHE/util/aes",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "HHEnisec",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						2,
+						3
+					],
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "Perf",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "Keccak",
+					"parentIndex" : 1,
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "AES",
+					"parentIndex" : 1,
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "aes::@10fba7f94f121cb99622",
+					"jsonFile" : "target-aes-Debug-7dbc65b1436a021e135d.json",
+					"name" : "aes",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "hheseal::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-hheseal-Debug-5ee2ff8af84866f9b5c7.json",
+					"name" : "hheseal",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "keccak::@969a8c22a57b5a63f8fb",
+					"jsonFile" : "target-keccak-Debug-505846caef372e6f6daa.json",
+					"name" : "keccak",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "perf::@b4c104e8d8c5e437ac34",
+					"jsonFile" : "target-perf-Debug-ec96e024425edbfa97c1.json",
+					"name" : "perf",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/mrgenie/Projects/HHE-Protocol/build",
+		"source" : "/home/mrgenie/Projects/HHE-Protocol"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}
