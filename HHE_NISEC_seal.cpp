@@ -300,24 +300,29 @@ int main(){
   RSA *rpub, *rpriv;
   Experim Test[cnt];
 
+  //Dummy users for performance purposes
   string user1 = "User";
   string user2 = "CSP";
   string user3 = "Analyst";
 
+  //Dummy timestamp values for performance purposes
   string m1 = "25122022";
   string m2 = "03042022";
   string m3 = "SQUARED";
   string m4 = "17061992";
 
+  //Ciphertext and Plaintext holders
   unsigned char c1[256];
   unsigned char c2[256];
   unsigned char p1[256];
   unsigned char p2[256];
 
-  generate_key(user2);
-  generate_key(user1);
-  generate_key(user3);
+  //Generate Pub/Priv key for users
+  generate_key(user1); //User
+  generate_key(user2); //CSP
+  generate_key(user3); //Data Analyst
 
+  //Random Symmetric Key
 	vector<uint64_t> in_key = {0x07a30, 0x0cfe2, 0x03bbb, 0x06ab7, 0x0de0b, 0x0c36c, 0x01c39, 0x019e0,
                                     0x0e09c, 0x04441, 0x0c560, 0x00fd4, 0x0c611, 0x0a3fd, 0x0d408, 0x01b17,
                                     0x0fa02, 0x054ea, 0x0afeb, 0x0193b, 0x0b6fa, 0x09e80, 0x0e253, 0x03f49,
@@ -381,19 +386,17 @@ int main(){
     }
     parms.set_plain_modulus(plain_mod);
     auto context = make_shared<seal::SEALContext>(parms, true, sec);
-
-
+    
     extra1 = chrono::high_resolution_clock::now();
     //Initiate the Class for HHE using PASTA_SEAL and set all parameters for HE
     PASTA_3::PASTA_SEAL M1(in_key, context);
-
     //Initiate the Class for Encryption and Decryption using PASTA Symmetric Key for Encryption and Decryption
     PASTA_3::PASTA EN(in_key, plain_mod);
-
     extra2 = chrono::high_resolution_clock::now();
     extra_diff = chrono::duration_cast<chrono::milliseconds>(extra2 - extra1);
     cout << "Time taken to generate HE Keys = " << extra_diff.count() << " milliseconds" << endl;
     
+    //m1 measurements
     time_start = chrono::high_resolution_clock::now();
     rpub = retrievePublicRSA(user2);
     inlen = RSA_public_encrypt(m1.length(), (unsigned char *)m1.c_str(), c1, rpub, RSA_PKCS1_PADDING);
