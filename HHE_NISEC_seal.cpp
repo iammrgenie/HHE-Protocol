@@ -115,13 +115,6 @@ RSA* retrievePublicRSA(string user) {
 
   RSA_print(keyb, rsa, 0);
 
-  //char buffer [2048];
-
-  //while (BIO_read (keyb, buffer, 2048) > 0)
-  //{
-  //  printf("%s", buffer);
-  //}
-  //cout << "2a\n";
   return rsa;
 }
 
