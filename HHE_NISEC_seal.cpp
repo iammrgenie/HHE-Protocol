@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <string>
 
 #include "HHE/ciphers/common_Zp/SEAL_Cipher.h"
 #include "HHE/ciphers/common/utils.h"
@@ -22,7 +23,8 @@ using namespace std;
 struct Experim {
   vector<uint64_t> x_i;
   vector<uint64_t> c_i;
-  vector<seal::Ciphertext> c_x;
+  vector<seal::Ciphertext> c_1;
+  vector<seal::Ciphertext> c_2;
   vector<uint64_t> x_p;
 };
 
@@ -102,11 +104,24 @@ RSA* retrievePublicRSA(string user) {
   string pub1 = user+"_public.pem";
   pub = &pub1[0];
   
-  BIO * keybio = BIO_new_file(pub, "r");
+  BIO * keybio = BIO_new_file(pub, "rt");
   if (keybio==NULL) {
       return 0;
   }
-  rsa = PEM_read_bio_RSA_PUBKEY(keybio, &rsa, NULL, NULL);
+
+  //cout << "1a\n";
+  rsa = PEM_read_bio_RSAPublicKey(keybio, &rsa, NULL, NULL);
+  BIO * keyb = BIO_new(BIO_s_mem());
+
+  RSA_print(keyb, rsa, 0);
+
+  //char buffer [2048];
+
+  //while (BIO_read (keyb, buffer, 2048) > 0)
+  //{
+  //  printf("%s", buffer);
+  //}
+  //cout << "2a\n";
   return rsa;
 }
 
@@ -236,6 +251,35 @@ char* signMessage(string user, string msg) {
 }
 
 
+unsigned char * encryptMessage(string user, string msg, int inlen) {
+  cout << "Encryption Process .... \n";
+
+  RSA* pubRSA = retrievePublicRSA(user);
+
+  unsigned char *ciphertext;
+  ciphertext = (unsigned char*)malloc(256);
+
+  inlen = RSA_public_encrypt(msg.length(), (unsigned char *)msg.c_str(), ciphertext, pubRSA, RSA_PKCS1_PADDING);
+
+  RSA_free(pubRSA);
+  return ciphertext;
+}
+
+unsigned char * decryptMessage(string user, unsigned char * ciphertext, int inlen, int outlen) {
+  cout << "Decryption Process .... \n";
+
+  RSA* privRSA = retrievePrivateRSA(user);
+
+  unsigned char *plaintext;
+  plaintext = (unsigned char*)malloc(256);
+
+  outlen = RSA_private_decrypt(inlen, ciphertext, plaintext, privRSA, RSA_PKCS1_PADDING);
+
+  RSA_free(privRSA);
+  return plaintext;
+}
+
+
 bool verifySignature(string user, string msg, char* signatureBase64) {
   //retrieve user public RSA key from file
   cout << "Message Verification Process .... User: " << user << "\n";
@@ -254,25 +298,32 @@ bool verifySignature(string user, string msg, char* signatureBase64) {
 
 
 int main(){
-  chrono::high_resolution_clock::time_point time_start, time_end, user_start, user_end, extra1, extra2;
-  chrono::milliseconds time_diff, user_diff, extra_diff;
+  chrono::high_resolution_clock::time_point time_start, time_end, user_start, user_end, extra1, extra2, eval1, eval2;
+  chrono::milliseconds time_diff, user_diff, extra_diff, eval_diff;
+  chrono::nanoseconds time_1, user_1, extra_1;
 
   int cnt = 1;
+  int inlen, outlen;
+  RSA *rpub, *rpriv;
   Experim Test[cnt];
 
   string user1 = "User";
   string user2 = "CSP";
   string user3 = "Analyst";
 
-  string msg1 = "You never know";
+  string m1 = "25122022";
+  string m2 = "03042022";
+  string m3 = "SQUARED";
+  string m4 = "17061992";
 
-  
-  //generate_key(user2);
-  //generate_key(user3);
+  unsigned char c1[256];
+  unsigned char c2[256];
+  unsigned char p1[256];
+  unsigned char p2[256];
 
-  // Test sign message
-  //char * sign1 = signMessage(user1, msg1);
-  //cout << "Signed Message: " << sign1 << "\n";
+  generate_key(user2);
+  generate_key(user1);
+  generate_key(user3);
 
 	vector<uint64_t> in_key = {0x07a30, 0x0cfe2, 0x03bbb, 0x06ab7, 0x0de0b, 0x0c36c, 0x01c39, 0x019e0,
                                     0x0e09c, 0x04441, 0x0c560, 0x00fd4, 0x0c611, 0x0a3fd, 0x0d408, 0x01b17,
@@ -338,9 +389,6 @@ int main(){
     parms.set_plain_modulus(plain_mod);
     auto context = make_shared<seal::SEALContext>(parms, true, sec);
 
-    
-    //generate_key(user1);
-    
 
     extra1 = chrono::high_resolution_clock::now();
     //Initiate the Class for HHE using PASTA_SEAL and set all parameters for HE
@@ -353,7 +401,22 @@ int main(){
     extra_diff = chrono::duration_cast<chrono::milliseconds>(extra2 - extra1);
     cout << "Time taken to generate HE Keys = " << extra_diff.count() << " milliseconds" << endl;
     
-    /*
+    time_start = chrono::high_resolution_clock::now();
+    rpub = retrievePublicRSA(user2);
+    inlen = RSA_public_encrypt(m1.length(), (unsigned char *)m1.c_str(), c1, rpub, RSA_PKCS1_PADDING);
+
+    char * s1 = signMessage(user1, m1);
+    time_end = chrono::high_resolution_clock::now();
+    time_1 = chrono::duration_cast<chrono::nanoseconds>(time_end - time_start);
+    cout << "Time taken to generate M1 = " << time_1.count() << " nanoseconds" << endl;
+
+    time_start = chrono::high_resolution_clock::now();
+    bool r1 = verifySignature(user1, m1, s1);
+    rpriv = retrievePrivateRSA(user2);
+    outlen = RSA_private_decrypt(inlen, c1, p1, rpriv, RSA_PKCS1_PADDING);
+    time_end = chrono::high_resolution_clock::now();
+    time_1 = chrono::duration_cast<chrono::nanoseconds>(time_end - time_start);
+    cout << "Time taken to verify and decrypt M1 = " << time_1.count() << " nanoseconds" << endl;
 
     //Print the necessary parameters to screen
     M1.print_parameters();
@@ -379,35 +442,54 @@ int main(){
     //Encrypt plaintext with the set key
     time_start = chrono::high_resolution_clock::now();
     for (int i = 0; i < cnt; i++){
-      //vector<uint64_t> x_encrypted = EN.encrypt(x_1);
-      //utils::print_vector("plaintext: ", x_1, cerr);
-      //cout<<"\n";
-      //utils::print_vector("ciphertext: ", x_encrypted, cerr);
-      //cout<<"\n";
       Test[i].c_i = EN.encrypt(x_1);
     }
     time_end = chrono::high_resolution_clock::now();
     user_end = chrono::high_resolution_clock::now();
     time_diff = chrono::duration_cast<chrono::milliseconds>(time_end - time_start);
     user_diff = chrono::duration_cast<chrono::milliseconds>(user_end - user_start);
-    cout << "Time taken for PASTA encryption for: " << cnt << " values = " << time_diff.count() << " milliseconds" << endl;
+    cout << "Time taken for symmetric encryption with PASTA for: " << cnt << " values = " << time_diff.count() << " milliseconds" << endl;
     cout << "Execution at User Side: " << cnt << " values = " << user_diff.count() << " milliseconds" << endl;
 
     //HHE Decomposition using the Symmetric Ciphertext and the HE encrypted key
     cout << "\nDecomposing C' and C ...\n" << flush;
     time_start = chrono::high_resolution_clock::now();
     for (int i = 0; i < cnt; i++){
-      Test[i].c_x = M1.HE_decrypt(Test[i].c_i, USE_BATCH);
+      Test[i].c_1 = M1.HE_decrypt(Test[i].c_i, USE_BATCH);
     }
     time_end = chrono::high_resolution_clock::now();
     time_diff = chrono::duration_cast<chrono::milliseconds>(time_end - time_start);
     cout << "Time taken to Decompose C' and C for " << cnt << " values = " << time_diff.count() << " milliseconds" << endl;
 
+    time_start = chrono::high_resolution_clock::now();
+    char * s2 = signMessage(user2, m2);
+    time_end = chrono::high_resolution_clock::now();
+    time_1 = chrono::duration_cast<chrono::nanoseconds>(time_end - time_start);
+    cout << "Time taken to generate M2 = " << time_1.count() << " nanoseconds" << endl;
+
+    time_start = chrono::high_resolution_clock::now();
+    bool r2 = verifySignature(user2, m2, s2);
+    time_end = chrono::high_resolution_clock::now();
+    time_1 = chrono::duration_cast<chrono::nanoseconds>(time_end - time_start);
+    cout << "Time taken to verify M2 = " << time_1.count() << " nanoseconds" << endl;
+
+    //HE Evaluation with Evaluation Key
+    cout << "Evaluating using Square operation .... \n" << flush;
+    eval1 = chrono::high_resolution_clock::now();
+    for (int i = 0; i < cnt; i++){
+      M1.square(Test[i].c_2, Test[i].c_1);
+      cout << "Squaring Complete \n";
+    }
+    eval2 = chrono::high_resolution_clock::now();
+    eval_diff = chrono::duration_cast<chrono::milliseconds>(eval2 - eval1);
+    cout << "Time taken to Evaluate the Square of C for " << cnt << " values = " << eval_diff.count() << " milliseconds" << endl;
+
+
     //Decrypt the Decomposed Ciphertext by the Analyst
     cout << "\nDecryption of Final Message using SK ...\n" << flush;
     time_start = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < cnt; i++){
-      Test[i].x_p = M1.decrypt_result(Test[i].c_x, USE_BATCH);
+      Test[i].x_p = M1.decrypt_result(Test[i].c_1, USE_BATCH);
       //utils::print_vector("Decrypted Decomposed Message: ", Test[i].x_p, cerr);
     }
     
@@ -415,7 +497,29 @@ int main(){
     time_diff = chrono::duration_cast<chrono::milliseconds>(time_end - time_start);
     cout << "Decryption Time for " << cnt << " values = " << time_diff.count() << " milliseconds" << endl;
 
-    */
+    time_start = chrono::high_resolution_clock::now();
+    rpub = retrievePublicRSA(user2);
+    inlen = RSA_public_encrypt(m3.length(), (unsigned char *)m3.c_str(), c2, rpub, RSA_PKCS1_PADDING);
+
+    char * s3 = signMessage(user3, m3);
+    time_end = chrono::high_resolution_clock::now();
+    time_1 = chrono::duration_cast<chrono::nanoseconds>(time_end - time_start);
+    cout << "Time taken to generate M3 = " << time_1.count() << " nanoseconds" << endl;
+
+    time_start = chrono::high_resolution_clock::now();
+    bool r3 = verifySignature(user3, m3, s3);
+    rpriv = retrievePrivateRSA(user2);
+    outlen = RSA_private_decrypt(inlen, c2, p2, rpriv, RSA_PKCS1_PADDING);
+    time_end = chrono::high_resolution_clock::now();
+    time_1 = chrono::duration_cast<chrono::nanoseconds>(time_end - time_start);
+    cout << "Time taken to verify and decrypt M3 = " << time_1.count() << " nanoseconds" << endl;
+
+    time_start = chrono::high_resolution_clock::now();
+    char * s4 = signMessage(user2, m4);
+    time_end = chrono::high_resolution_clock::now();
+    time_1 = chrono::duration_cast<chrono::nanoseconds>(time_end - time_start);
+    cout << "Time taken to generate M4 = " << time_1.count() << " nanoseconds" << endl;
+
 
     return 0;
 }

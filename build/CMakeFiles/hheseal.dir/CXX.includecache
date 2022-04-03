@@ -1033,6 +1033,8 @@ vector
 -
 iostream
 -
+string
+-
 HHE/ciphers/common_Zp/SEAL_Cipher.h
 /home/mrgenie/Projects/HHE-Protocol/HHE/ciphers/common_Zp/SEAL_Cipher.h
 HHE/ciphers/common/utils.h
